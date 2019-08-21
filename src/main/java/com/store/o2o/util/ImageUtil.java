@@ -11,6 +11,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -38,13 +39,13 @@ public class ImageUtil {
     }
     /**
      *process image and generate new image relative path
-     * @param thumbnail
+     * @param filename
      * @param targetAddr
      * @return
      */
-    public static String generateThumbnail(File thumbnail, String targetAddr){
+    public static String generateThumbnail(InputStream shopImgInputStream, String targetAddr, String filename ){
         String realFileName= getRandomFileName();
-        String extension = getFileExtension(thumbnail);
+        String extension = getFileExtension(filename);
         makeDirPath(targetAddr);
         String relativeAddr= targetAddr+realFileName+extension;
 
@@ -53,7 +54,7 @@ public class ImageUtil {
 
         File dest=new File(PathUTil.getImgBasePath()+relativeAddr);
         try{
-            Thumbnails.of(thumbnail).size(200,200)
+            Thumbnails.of(shopImgInputStream).size(200,200)
                     .watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File(basePath+"/watermark.png")),0.25f)
                     .outputQuality(0.8f).toFile(dest);
         } catch (IOException e){
@@ -65,12 +66,11 @@ public class ImageUtil {
 
     /**
      *
-     * @param commonsMultipartFile
+     * @param filename
      * @return
      */
-    private static String getFileExtension(File commonsMultipartFile){
-        String originalFilename=commonsMultipartFile.getName();
-        return originalFilename.substring(originalFilename.lastIndexOf("."));
+    private static String getFileExtension(String filename){
+        return filename.substring(filename.lastIndexOf("."));
     }
 
     /**

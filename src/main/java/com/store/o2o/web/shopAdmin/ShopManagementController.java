@@ -61,28 +61,22 @@ public class ShopManagementController {
             //temporally use hard code user, add session later
             owner.setUserId(1L);
             shop.setOwner(owner);
-            File shopImgFile= new File(PathUTil.getImgBasePath()+ ImageUtil.getRandomFileName());
+
+
+            ShopExecution se= null;
             try {
-                shopImgFile.createNewFile();
+                se = shopService.addShop(shop,shopImg.getInputStream(),shopImg.getOriginalFilename());
+                if(se.getState()== ShopStateEnum.CHECK.getState()){
+                    modelMap.put("success",true);
+                }else{
+                    modelMap.put("success",false);
+                    modelMap.put("errMsg","input store info");
+                }
             } catch (IOException e) {
                 modelMap.put("success",false);
-                modelMap.put("errMsg",e.getMessage());
-                return modelMap;
+                modelMap.put("errMsg","image cannot be empty");
             }
-            try {
-                inputStreamToFile(shopImg.getInputStream(),shopImgFile);
-            } catch (IOException e) {
-                modelMap.put("success",false);
-                modelMap.put("errMsg",e.getMessage());
-                return modelMap;
-            }
-            ShopExecution se= shopService.addShop(shop,shopImgFile);
-            if(se.getState()== ShopStateEnum.CHECK.getState()){
-                modelMap.put("success",true);
-            }else{
-                modelMap.put("success",false);
-                modelMap.put("errMsg","input store info");
-            }
+
             return modelMap;
         }
         else{
@@ -93,25 +87,25 @@ public class ShopManagementController {
 
     }
 
-    private static void inputStreamToFile(InputStream ins, File file){
-        FileOutputStream os=null;
-        try{
-            os=new FileOutputStream(file);
-            int bytesRead=0;
-            byte[] buffer= new byte[1024];
-            while((bytesRead=ins.read(buffer))!=-1){
-                os.write(buffer,0,bytesRead);
-            }
-        } catch (Exception e){
-            throw new RuntimeException("get inputStreamTofile has problem: "+e.getMessage());
-        }finally {
-            try{
-                if(os!=null)os.close();
-                if(ins!=null)ins.close();
-            }catch (IOException e){
-                throw new RuntimeException("inputStreamTo file closing file problem: "+e.getMessage());
-            }
-        }
-    }
+//    private static void inputStreamToFile(InputStream ins, File file){
+//        FileOutputStream os=null;
+//        try{
+//            os=new FileOutputStream(file);
+//            int bytesRead=0;
+//            byte[] buffer= new byte[1024];
+//            while((bytesRead=ins.read(buffer))!=-1){
+//                os.write(buffer,0,bytesRead);
+//            }
+//        } catch (Exception e){
+//            throw new RuntimeException("get inputStreamTofile has problem: "+e.getMessage());
+//        }finally {
+//            try{
+//                if(os!=null)os.close();
+//                if(ins!=null)ins.close();
+//            }catch (IOException e){
+//                throw new RuntimeException("inputStreamTo file closing file problem: "+e.getMessage());
+//            }
+//        }
+//    }
 
 }

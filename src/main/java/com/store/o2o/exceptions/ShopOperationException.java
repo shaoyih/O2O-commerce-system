@@ -1,8 +1,8 @@
 package com.store.o2o.exceptions;
 
-public class shopOperationException extends  RuntimeException {
+public class ShopOperationException extends  RuntimeException {
     private static final long serialVersionUID= 4495334852120567515L;
-    public shopOperationException(String message) {
+    public ShopOperationException(String message) {
         super(message);
     }
 }

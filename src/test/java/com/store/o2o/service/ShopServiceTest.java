@@ -13,6 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -24,7 +27,7 @@ public class ShopServiceTest {
     @Autowired
     private ShopService shopService;
     @Test
-    public void addShop() {
+    public void addShop() throws FileNotFoundException {
         Shop shop=new Shop();
         PersonInfo owner = new PersonInfo();
         Area area=new Area();
@@ -35,7 +38,7 @@ public class ShopServiceTest {
         shopCategory.setShopCategoryId(1L);
         shop.setOwner(owner);
         shop.setArea(area);
-        shop.setShopName("测试的店铺1");
+        shop.setShopName("测试的店铺3");
         shop.setShopAddr("test1");
         shop.setPhone("test1");
         shop.setShopDesc("test1");
@@ -44,8 +47,9 @@ public class ShopServiceTest {
         shop.setAdvice("审核中");
 
         File shopImg=new File("C:\\Users\\95155\\Desktop\\image\\vets.png");
+        InputStream is= new FileInputStream(shopImg);
 
-        ShopExecution se=shopService.addShop(shop,shopImg);
+        ShopExecution se=shopService.addShop(shop,is,shopImg.getName());
         assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
     }
 }
