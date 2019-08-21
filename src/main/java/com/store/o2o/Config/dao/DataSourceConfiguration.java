@@ -1,4 +1,4 @@
-package com.store.o2o.Config;
+package com.store.o2o.Config.dao;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.mybatis.spring.annotation.MapperScan;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.beans.PropertyVetoException;
 
 @Configuration
-@MapperScan("${com.store.o2o.dao}")
+@MapperScan("com.store.o2o.dao")
 public class DataSourceConfiguration {
 
     @Value("${jdbc.driver}")

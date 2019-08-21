@@ -15,7 +15,7 @@ public class Shop {
     private String phone;
     private String shopImg;
     private Integer priority;
-    private Date creatTime;
+    private Date createTime;
     private Date lastEditTime;
     //-1 disabled, 0 checking, 1 enabled
     private Integer enableStatus;
@@ -23,5 +23,6 @@ public class Shop {
     private String advice;
     private Area area;
     private PersonInfo owner;
+    private ShopCategory shopCategory;
 
 }
