@@ -6,6 +6,7 @@ import com.store.o2o.entity.PersonInfo;
 import com.store.o2o.entity.Shop;
 import com.store.o2o.entity.ShopCategory;
 import com.store.o2o.enums.ShopStateEnum;
+import com.store.o2o.exceptions.ShopOperationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -52,5 +54,25 @@ public class ShopServiceTest {
 
         ShopExecution se=shopService.addShop(shop,is,shopImg.getName());
         assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
+    }
+    @Test
+    public void modifyShop() throws ShopOperationException,FileNotFoundException{
+        Shop shop=new Shop();
+        shop.setShopId(52L);
+        shop.setShopName("两家小店");
+        File shopImg=new File("C:\\Users\\95155\\Desktop\\image\\wp2552767-wallpaper-naruto-hd.jpg");
+        InputStream is= new FileInputStream(shopImg);
+        ShopExecution shopExecution =shopService.modifyShop(shop,is,"mingren.jpg");
+        System.out.println("new image name"+shopExecution.getShop().getShopImg());
+    }
+    @Test
+    public void queryShopList() {
+        Shop shop = new Shop();
+        PersonInfo owner = new PersonInfo();
+        owner.setUserId(1L);
+        shop.setOwner(owner);
+        ShopExecution se=shopService.getShopList(shop,0,5);
+        System.out.println(se.getShopList().size());
+        System.out.println(se.getCount());
     }
 }

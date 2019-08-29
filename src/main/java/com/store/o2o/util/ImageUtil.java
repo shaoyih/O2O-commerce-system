@@ -103,5 +103,23 @@ public class ImageUtil {
                 .outputQuality(0.8f).toFile("C:\\Users\\95155\\Desktop\\image\\vetsNew.png");
     }
 
+    /**
+     * check path is dir or file and then delete
+     * @param storePath
+     */
+    public static void deleteFileOrPath(String storePath){
+        File fileOrPath= new File(PathUTil.getImgBasePath()+storePath);
+        if(fileOrPath.exists()){
+            if(fileOrPath.isDirectory()){
+                File file[]=fileOrPath.listFiles();
+                for (int i=0; i<file.length;i++){
+                    file[i].delete();
+                }
+            }
+            fileOrPath.delete();
+        }
+
+    }
+
 
 }

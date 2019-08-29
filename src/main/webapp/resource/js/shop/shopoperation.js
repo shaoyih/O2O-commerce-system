@@ -1,11 +1,51 @@
 
 
 $(function () {
+    var shopId= getQueryString('shopId');
+    var isEdit= shopId?true:false;
     var initUrl='/o2o/shopadmin/getshopinitinfo';
     var registerShopUrl='/o2o/shopadmin/registershop';
-    alert(initUrl);
-    getShopInit();
+    var modifyShopUrl='/o2o/shopadmin/modifyshop'
+    var shopInfoUrl='/o2o/shopadmin/getshopbyid?shopId='+shopId;
 
+    alert(initUrl);
+
+    if(!isEdit){
+        getShopInit();
+    }
+    else{
+        getShopInfo(shopId);
+    }
+
+    function getShopInfo(shopId) {
+        $.getJSON(shopInfoUrl, function(data) {
+            if (data.success) {
+                var shop = data.shop;
+                $('#shop-name').val(shop.shopName);
+                $('#shop-addr').val(shop.shopAddr);
+                $('#shop-phone').val(shop.phone);
+                $('#shop-desc').val(shop.shopDesc);
+
+                var shopCategory = '<option data-id="'
+                    + shop.shopCategory.shopCategoryId + '" selected>'
+                    + shop.shopCategory.shopCategoryName + '</option>';
+                var tempAreaHtml = '';
+
+                data.areaList.map(function(item, index) {
+                    tempAreaHtml += '<option data-id="' + item.areaId + '">'
+                        + item.areaName + '</option>';
+                });
+                $('#shop-category').html(shopCategory);
+                // disable category change
+                $('#shop-category').attr('disabled', 'disabled');
+                $('#area').html(tempAreaHtml);
+                // 给店铺选定原先的所属的区域
+                $("#area option[data-id='" + shop.area.areaId + "']").attr(
+                    "selected", "selected");
+            }
+        });
+
+    }
     function getShopInit() {
         $.getJSON(initUrl,
             function (data) {
@@ -28,7 +68,9 @@ $(function () {
 
         $('#submit').click(function () {
             var shop={};
-
+            if(isEdit){
+                shop.shopId=shopId;
+            }
             shop.shopName = $('#shop-name').val();
             shop.shopAddr = $('#shop-addr').val();
             shop.phone = $('#shop-phone').val();
@@ -56,7 +98,7 @@ $(function () {
             }
             formData.append('verifyCodeActual', verifyCodeActual);
             $.ajax({
-                url:registerShopUrl,
+                url:(isEdit ? modifyShopUrl : registerShopUrl),
                 type : 'POST',
                 data : formData,
                 contentType : false,
@@ -64,7 +106,7 @@ $(function () {
                 cache : false,
                 success :function(data) {
                     if (data.success) {
-                        $.toast('successfully registered!');
+                        $.toast('successful!');
                         if (!isEdit) {
                             window.location.href = "/o2o/shopadmin/shoplist";
                         }
@@ -76,4 +118,5 @@ $(function () {
                 }
             });
         });
+
 })

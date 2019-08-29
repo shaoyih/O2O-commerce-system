@@ -12,6 +12,16 @@ public class shopAdminController {
     @GetMapping(value = "/shopoperation")
     public String shopOperation(){
         System.out.println("testt");
-        return "shopOperation";
+        return "shop/shopOperation";
     }
+    @GetMapping(value = "/shoplist")
+    public String shopList() {
+        return "shop/shoplist";
+
+    }
+    @RequestMapping(value = "/shopmanagement")
+    public String shopManagement() {
+        return "shop/shopmanagement";
+    }
+
 }
