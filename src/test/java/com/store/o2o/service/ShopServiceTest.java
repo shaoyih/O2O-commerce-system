@@ -1,5 +1,6 @@
 package com.store.o2o.service;
 
+import com.store.o2o.dto.ImageHolder;
 import com.store.o2o.dto.ShopExecution;
 import com.store.o2o.entity.Area;
 import com.store.o2o.entity.PersonInfo;
@@ -51,8 +52,8 @@ public class ShopServiceTest {
 
         File shopImg=new File("C:\\Users\\95155\\Desktop\\image\\vets.png");
         InputStream is= new FileInputStream(shopImg);
-
-        ShopExecution se=shopService.addShop(shop,is,shopImg.getName());
+        ImageHolder imageHolder = new ImageHolder("vet.jpg", is);
+        ShopExecution se=shopService.addShop(shop,imageHolder);
         assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
     }
     @Test
@@ -62,7 +63,8 @@ public class ShopServiceTest {
         shop.setShopName("两家小店");
         File shopImg=new File("C:\\Users\\95155\\Desktop\\image\\wp2552767-wallpaper-naruto-hd.jpg");
         InputStream is= new FileInputStream(shopImg);
-        ShopExecution shopExecution =shopService.modifyShop(shop,is,"mingren.jpg");
+        ImageHolder imageHolder= new ImageHolder("mingren.jpg",is);
+        ShopExecution shopExecution =shopService.modifyShop(shop,imageHolder);
         System.out.println("new image name"+shopExecution.getShop().getShopImg());
     }
     @Test

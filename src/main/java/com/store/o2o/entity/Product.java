@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +21,8 @@ public class Product {
     private Date lastEditTime;
     //-1 disabled, 0 not displayed, 1 displayed
     private Integer enableStatus;
+    private Shop shop;
+    private List<ProductImg> productImgList;
+    private ProductCategory productCategory;
+    private Integer point;
 }

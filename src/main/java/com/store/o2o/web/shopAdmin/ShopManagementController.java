@@ -1,6 +1,7 @@
 package com.store.o2o.web.shopAdmin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.store.o2o.dto.ImageHolder;
 import com.store.o2o.dto.ShopExecution;
 import com.store.o2o.entity.Area;
 import com.store.o2o.entity.PersonInfo;
@@ -13,7 +14,6 @@ import com.store.o2o.service.ShopService;
 import com.store.o2o.util.CodeUtil;
 import com.store.o2o.util.HttpServletRequestUtil;
 import com.store.o2o.util.ImageUtil;
-import com.store.o2o.util.PathUTil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -172,7 +172,8 @@ public class ShopManagementController {
 
             ShopExecution se = null;
             try {
-                se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                ImageHolder imageHolder= new ImageHolder(shopImg.getOriginalFilename(), shopImg.getInputStream());
+                se = shopService.addShop(shop,imageHolder );
                 if (se.getState() == ShopStateEnum.CHECK.getState()) {
                     modelMap.put("success", true);
                     // The store user can modify
@@ -231,9 +232,10 @@ public class ShopManagementController {
                 ShopExecution se= null;
                 try {
                     if(shopImg==null){
-                        se = shopService.modifyShop(shop,null,null);
+                        se = shopService.modifyShop(shop,null);
                     }else{
-                        se = shopService.modifyShop(shop,shopImg.getInputStream(),shopImg.getOriginalFilename());
+                        ImageHolder imageHolder= new ImageHolder(shopImg.getOriginalFilename(),shopImg.getInputStream());
+                        se = shopService.modifyShop(shop,imageHolder);
                     }
                     if(se.getState()== ShopStateEnum.SUCCESS.getState()){
                         modelMap.put("success",true);

@@ -1,6 +1,6 @@
 package com.store.o2o.util;
 
-public class PathUTil {
+public class PathUtil {
     private static String separator=System.getProperty("file.separator");
     public static String getImgBasePath(){
 

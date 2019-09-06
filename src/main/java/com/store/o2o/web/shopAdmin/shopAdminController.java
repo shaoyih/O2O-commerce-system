@@ -3,7 +3,6 @@ package com.store.o2o.web.shopAdmin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("shopadmin")
@@ -12,7 +11,7 @@ public class shopAdminController {
     @GetMapping(value = "/shopoperation")
     public String shopOperation(){
         System.out.println("testt");
-        return "shop/shopOperation";
+        return "shop/shopoperation";
     }
     @GetMapping(value = "/shoplist")
     public String shopList() {
@@ -23,9 +22,21 @@ public class shopAdminController {
     public String shopManagement() {
         return "shop/shopmanagement";
     }
+
     @GetMapping(value = "/productcategorymanagement")
     private String productCategoryManage() {
         return "shop/productcategorymanagement";
     }
+
+    @RequestMapping(value = "/productoperation")
+    public String productOperation() {
+        return "shop/productoperation";
+    }
+
+    @RequestMapping(value = "/productmanagement")
+    public String productManagement() {
+        return "shop/productmanagement";
+    }
+
 
 }
