@@ -10,7 +10,6 @@ public class shopAdminController {
 
     @GetMapping(value = "/shopoperation")
     public String shopOperation(){
-        System.out.println("testt");
         return "shop/shopoperation";
     }
     @GetMapping(value = "/shoplist")
