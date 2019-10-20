@@ -1,2 +1,3 @@
-"# O2O-commerce-system" 
+# Overview
+This is an O2O E-commerce system based on myBatis, still working on it.
 
